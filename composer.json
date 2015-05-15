@@ -15,5 +15,6 @@
             "type": "vcs",
             "url": "git@github.com:jon-acker/symfony-container-builder.git"
         }
-    ]
+    ],
+    "minimum-stability":"dev"
 }
