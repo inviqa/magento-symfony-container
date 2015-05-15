@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Inviqa_SymfonyContainer>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Inviqa_SymfonyContainer>
+    </modules>
+</config>
