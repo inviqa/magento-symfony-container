@@ -3,10 +3,17 @@
     "type": "magento-module",
     "license": "proprietary",
     "description": "Provides Magento with an instance of a Symfony DI Container",
+    "require": {
+        "inviqa/symfony-container-builder": "*"
+    },
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:jon-acker/magento-composer-autoloader.git"
+            "url": "git@github.com:jon-acker/magento-symfony-container.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:jon-acker/symfony-container-builder.git"
         }
     ]
 }
