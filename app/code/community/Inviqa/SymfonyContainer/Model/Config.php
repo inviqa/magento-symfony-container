@@ -22,12 +22,10 @@ class Inviqa_SymfonyContainer_Model_Config extends Mage_Core_Model_Config
      */
     private function _buildContainer()
     {
-        $debug = false;
-
         $generator = new ContainerGenerator(
             Mage::getBaseDir('cache') . '/container.cache.php',
             $this->_collectConfigFolders(),
-            $debug
+            Mage::getIsDeveloperMode()
         );
 
         return $this->_container = $generator->getContainer();
