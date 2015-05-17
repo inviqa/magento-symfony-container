@@ -6,7 +6,7 @@ class Inviqa_SymfonyContainer_Controller_Base extends Mage_Core_Controller_Front
 
     public function _construct()
     {
-        $this->_container = Mage::getModel('inviqa_symfonyContainer/config')->getContainer();
+        $this->_container = Mage::getSingleton('inviqa_symfonyContainer/config')->getContainer();
 
         parent::_construct();
     }
