@@ -1,5 +1,6 @@
 <?php
 
+use ContainerTools\Configuration;
 use ContainerTools\ContainerGenerator;
 
 class Inviqa_SymfonyContainer_Model_Config extends Mage_Core_Model_Config
@@ -22,14 +23,17 @@ class Inviqa_SymfonyContainer_Model_Config extends Mage_Core_Model_Config
      */
     private function _buildContainer()
     {
-        $format = 'xml';
-
-        $generator = new ContainerGenerator(
+        $servicesFormat = 'xml';
+        $configuration = Configuration::fromParameters(
             Mage::getBaseDir('cache') . '/container.cache.php',
             $this->_collectConfigFolders(),
             Mage::getIsDeveloperMode(),
-            $format
+            $servicesFormat
         );
+
+        $configuration->addCompilerPass(new Inviqa_SymfonyContainer_Model_CompilerPass());
+
+        $generator = new ContainerGenerator($configuration);
 
         return $this->_container = $generator->getContainer();
     }
