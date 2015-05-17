@@ -13,7 +13,7 @@ class Inviqa_Zygourator_IndexController extends Inviqa_SymfonyContainer_Controll
         $this->renderLayout();
     }
 }
-'''
+```
 
 ## Usage in Observer
 ```php
