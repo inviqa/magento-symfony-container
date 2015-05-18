@@ -5,10 +5,10 @@ class Inviqa_SymfonyContainer_Model_Observer
 {
     protected $_container;
 
-    public function _construct()
+    public function __construct()
     {
-        $this->_container = Mage::getSingleton('inviqa_symfonyContainer/config')->getContainer();
+        $this->_container = Mage::helper('inviqa_symfonyContainer/containerProvider')->getContainer();
 
-        parent::_construct();
+        parent::__construct();
     }
 } 

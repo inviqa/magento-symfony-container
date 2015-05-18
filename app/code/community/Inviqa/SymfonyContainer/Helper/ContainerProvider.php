@@ -3,7 +3,7 @@
 use ContainerTools\Configuration;
 use ContainerTools\ContainerGenerator;
 
-class Inviqa_SymfonyContainer_Model_Config extends Mage_Core_Model_Config
+class Inviqa_SymfonyContainer_Helper_ContainerProvider
 {
     /**
      * @var Container
@@ -31,7 +31,7 @@ class Inviqa_SymfonyContainer_Model_Config extends Mage_Core_Model_Config
             $servicesFormat
         );
 
-        $configuration->addCompilerPass(new Inviqa_SymfonyContainer_Model_CompilerPass());
+        $configuration->addCompilerPass(new Inviqa_SymfonyContainer_Model_ExampleCompilerPass());
 
         $generator = new ContainerGenerator($configuration);
 
@@ -43,12 +43,12 @@ class Inviqa_SymfonyContainer_Model_Config extends Mage_Core_Model_Config
      */
     private function _collectConfigFolders()
     {
-        $folders = array();
-        $folders[] = $this->getOptions()->getEtcDir();
+        $mageConfig = Mage::getConfig();
+        $folders = array($mageConfig->getOptions()->getEtcDir());
 
-        foreach (Mage::getConfig()->getNode('modules')->children() as $name => $module) {
+        foreach ($mageConfig->getNode('modules')->children() as $name => $module) {
             if ($module->active) {
-                $folders[] = Mage::getConfig()->getModuleDir('etc', $name);
+                $folders[] = $mageConfig->getModuleDir('etc', $name);
             }
         }
 

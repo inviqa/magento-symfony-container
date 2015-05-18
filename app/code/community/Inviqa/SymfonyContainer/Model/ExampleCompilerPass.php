@@ -3,7 +3,7 @@
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class Inviqa_SymfonyContainer_Model_CompilerPass implements CompilerPassInterface
+class Inviqa_SymfonyContainer_Model_ExampleCompilerPass implements CompilerPassInterface
 {
     /**
      * You can modify the container here before it is dumped to PHP code.

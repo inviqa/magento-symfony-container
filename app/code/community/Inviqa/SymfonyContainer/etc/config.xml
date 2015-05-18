@@ -6,7 +6,11 @@
                 <class>Inviqa_SymfonyContainer_Model</class>
             </inviqa_symfonyContainer>
         </models>
-
+        <helpers>
+            <inviqa_symfonyContainer>
+                <class>Inviqa_SymfonyContainer_Helper</class>
+            </inviqa_symfonyContainer>
+        </helpers>
     </global>
 
 </config>
