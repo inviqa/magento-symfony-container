@@ -3,9 +3,11 @@ Provides Magento with an instance of a Symfony DI Container
 
 For documentation on the Symfony DI Componenent see here [here](http://symfony.com/doc/current/components/dependency_injection/index.html)
 
-All services configuration files are expexted to be found in either the system-wide etc/ directory or withing each modules etc/ directory. The default format is XML, therefore the configuration files are expected to be called "services.xml"
+Upon requesting the container for the first time, the configuration diretories are scanned and the container compiled. If developer mode is off, the container will be cached in public/var/cache/container.cache.php and subsequently ready from there. To force the cache to refresh simply delete this file. If you want to container to be built for every request, make your sure switch on Magento developer-mode (in this state any existing container.cache.php file will be ignored).
 
 ## Services Configuration
+
+All services configuration files are expexted to be found in either the system-wide etc/ directory or withing each modules etc/ directory. The default format is XML, therefore the configuration files are expected to be called "services.xml"
 
 The following is an example of defining a service named "acme.checkout", which, in turn, depends on a magento catalog model and a mail service. Via the configuration, we can provide "acme.product.catalog" - which is constructed by calling Mage::getModel('inviqa_acme/catalog') - as a dependency to "acme.checkout". Thus our "acme.checkout" service/class is now decoupled from Magento and its logic and business rules can be tested independently.
 
