@@ -81,13 +81,13 @@ The idea behind using a DI container is to be able to easily decouple your code,
 
 ### Usage via trait
 ```php
-class Inviqa_Acme_IndexController extends Inviqa_SymfonyContainer_Controller_Base
+class Inviqa_Acme_IndexController
 {
     use Inviqa_SymfonyContainer_Helper_ServiceProvider;
 
     public function indexAction()
     {
-        $this->getService('acme.product.catalog')->findAll();
+        $this->getService('acme.checkout')->process();
         
         $this->loadLayout();
         $this->renderLayout();
