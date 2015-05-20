@@ -37,7 +37,7 @@ The following is an example of defining a service named "acme.checkout", which, 
 ```
 
 Your implementation of Inviqa\Acme\Checkout might look something like this:
-```
+```php
 namespace Inviqa\Acme;
 
 use Inviqa\Acme\Catalog;
@@ -81,7 +81,7 @@ class Inviqa_Acme_IndexController extends Inviqa_SymfonyContainer_Controller_Bas
 {
     public function indexAction()
     {
-        $this->_controller->get('acme.chekcout')->start();
+        $this->_container->get('acme.chekcout')->start();
         
         $this->loadLayout();
         $this->renderLayout();
@@ -95,7 +95,7 @@ class Inviqa_Acme_Model_Observer extends Inviqa_SymfonyContainer_Model_Observer
 {
     public function postCheckout(Products $products)
     {
-        $this->_controller->get('acme.checkout')->process($products);
+        $this->_container->get('acme.checkout')->process($products);
     }
 }
 ```
