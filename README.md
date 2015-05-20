@@ -75,13 +75,19 @@ interface Catalog
 
 And have your Inviqa_Acme_Model_Catalog implment the Catalog interface.
 
-## Usage in Controller
+## Usage
+
+The idea behind using a DI container is to be able to easily decouple your code, therefore direct access to the container is bad practice and should be limited to where absolutely neccessary for example where a service cannot be provided automatically (e.g. a Magento controller or observer).
+
+### Usage via trait
 ```php
 class Inviqa_Acme_IndexController extends Inviqa_SymfonyContainer_Controller_Base
 {
+    use Inviqa_SymfonyContainer_Helper_ServiceProvider;
+
     public function indexAction()
     {
-        $this->_container->get('acme.chekcout')->start();
+        $this->getService('acme.product.catalog')->findAll();
         
         $this->loadLayout();
         $this->renderLayout();
@@ -89,20 +95,8 @@ class Inviqa_Acme_IndexController extends Inviqa_SymfonyContainer_Controller_Bas
 }
 ```
 
-## Usage in Observer
-```php
-class Inviqa_Acme_Model_Observer extends Inviqa_SymfonyContainer_Model_Observer
-{
-    public function postCheckout(Products $products)
-    {
-        $this->_container->get('acme.checkout')->process($products);
-    }
-}
-```
+### Usage directly via helper
 
-## Access to container anywhere else
-
-The idea behind using a DI container is to be able to easily decouple your code, therefore direct access to the container is bad practice and should be limited to where absolutely neccessary for example where a service cannot be provided automatically (e.g. a Magento controller or observer).
 
 ```php
 $container = Mage::helper('inviqa_symfonyContainer/containerProvider')->getContainer();
