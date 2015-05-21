@@ -26,7 +26,7 @@ The following is an example of defining a service named "acme.checkout", which, 
         
         <service id="acme.product.catalog" class="Inviqa_Acme_Model_Catalog">
             <factory class="Mage" method="getModel"/>
-            <argument>inviqa_came/catalog</argument>
+            <argument>inviqa_acme/catalog</argument>
         </service>
         
         <service id="acme.mailer" class="Inviqa\Mailer">
