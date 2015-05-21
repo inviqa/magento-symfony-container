@@ -9,11 +9,11 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:jon-acker/magento-symfony-container.git"
+            "url": "git@github.com:inviqa/magento-symfony-container.git"
         },
         {
             "type": "vcs",
-            "url": "git@github.com:jon-acker/symfony-container-generator.git"
+            "url": "git@github.com:inviqa/symfony-container-generator.git"
         }
     ],
     "minimum-stability":"dev"
