@@ -30,9 +30,8 @@ class Inviqa_SymfonyContainer_Helper_ContainerProvider
         $servicesFormat = 'xml';
         $cachedContainer = Mage::getBaseDir('cache') . '/' . self::CACHED_CONTAINER;
         $useCache = Mage::app()->useCache(self::MODEL_ALIAS);
-        $configFolders = $useCache && file_exists($cachedContainer) ? array() : $this->_collectConfigFolders();
 
-        $configuration = Configuration::fromParameters($cachedContainer, $configFolders, !$useCache, $servicesFormat);
+        $configuration = Configuration::fromParameters($cachedContainer, $this->_collectConfigFolders(), !$useCache, $servicesFormat);
 
         $configuration->addCompilerPass(new Inviqa_SymfonyContainer_Model_ExampleCompilerPass());
 
