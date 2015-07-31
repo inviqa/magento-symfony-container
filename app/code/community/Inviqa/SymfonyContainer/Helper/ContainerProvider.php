@@ -5,6 +5,10 @@ use ContainerTools\ContainerGenerator;
 
 class Inviqa_SymfonyContainer_Helper_ContainerProvider
 {
+    const MODEL_ALIAS = 'inviqa_symfonyContainer';
+
+    const CACHED_CONTAINER = 'container.cache.php';
+
     /**
      * @var Container
      */
@@ -24,12 +28,11 @@ class Inviqa_SymfonyContainer_Helper_ContainerProvider
     private function _buildContainer()
     {
         $servicesFormat = 'xml';
-        $configuration = Configuration::fromParameters(
-            Mage::getBaseDir('cache') . '/container.cache.php',
-            $this->_collectConfigFolders(),
-            Mage::getIsDeveloperMode(),
-            $servicesFormat
-        );
+        $cachedContainer = Mage::getBaseDir('cache') . '/' . self::CACHED_CONTAINER;
+        $useCache = Mage::app()->useCache(self::MODEL_ALIAS);
+        $configFolders = $useCache && file_exists($cachedContainer) ? array() : $this->_collectConfigFolders();
+
+        $configuration = Configuration::fromParameters($cachedContainer, $configFolders, !$useCache, $servicesFormat);
 
         $configuration->addCompilerPass(new Inviqa_SymfonyContainer_Model_ExampleCompilerPass());
 
