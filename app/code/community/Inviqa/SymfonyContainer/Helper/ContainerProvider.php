@@ -22,7 +22,7 @@ class Inviqa_SymfonyContainer_Helper_ContainerProvider
     {
         $this->_generatorConfig = isset($services['generatorConfig']) ?
             $services['generatorConfig'] :
-            Mage::getModel('inviqa_symfonyContainer/configurationBuilder');
+            Mage::getModel('inviqa_symfonyContainer/configurationBuilder')->build();
     }
 
     /**
