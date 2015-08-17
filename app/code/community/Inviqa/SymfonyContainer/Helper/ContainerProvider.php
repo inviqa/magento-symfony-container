@@ -2,12 +2,10 @@
 
 use ContainerTools\Configuration;
 use ContainerTools\ContainerGenerator;
+use Symfony\Component\DependencyInjection\Container;
 
 class Inviqa_SymfonyContainer_Helper_ContainerProvider
 {
-    const MODEL_ALIAS = 'inviqa_symfonyContainer';
-
-    const CACHED_CONTAINER = 'container.cache.php';
 
     /**
      * @var Container
@@ -15,7 +13,20 @@ class Inviqa_SymfonyContainer_Helper_ContainerProvider
     private $_container;
 
     /**
-     * @return \Symfony\Component\DependencyInjection\Container
+     * @var Configuration
+     */
+    private $_generatorConfig;
+
+
+    public function __construct(array $services = array())
+    {
+        $this->_generatorConfig = isset($services['generatorConfig']) ?
+            $services['generatorConfig'] :
+            Mage::getModel('inviqa_symfonyContainer/configurationBuilder');
+    }
+
+    /**
+     * @return Container
      */
     public function getContainer()
     {
@@ -23,37 +34,14 @@ class Inviqa_SymfonyContainer_Helper_ContainerProvider
     }
 
     /**
-     * @return \Symfony\Component\DependencyInjection\Container
+     * @return Container
      */
     private function _buildContainer()
     {
-        $servicesFormat = 'xml';
-        $cachedContainer = Mage::getBaseDir('cache') . '/' . self::CACHED_CONTAINER;
-        $useCache = Mage::app()->useCache(self::MODEL_ALIAS);
+        $this->_generatorConfig->addCompilerPass(new Inviqa_SymfonyContainer_Model_ExampleCompilerPass());
 
-        $configuration = Configuration::fromParameters($cachedContainer, $this->_collectConfigFolders(), !$useCache, $servicesFormat);
-
-        $configuration->addCompilerPass(new Inviqa_SymfonyContainer_Model_ExampleCompilerPass());
-
-        $generator = new ContainerGenerator($configuration);
+        $generator = new ContainerGenerator($this->_generatorConfig);
 
         return $this->_container = $generator->getContainer();
-    }
-
-    /**
-     * @return array List of all "etc" folders
-     */
-    private function _collectConfigFolders()
-    {
-        $mageConfig = Mage::getConfig();
-        $folders = array($mageConfig->getOptions()->getEtcDir());
-
-        foreach ($mageConfig->getNode('modules')->children() as $name => $module) {
-            if ($module->active) {
-                $folders[] = $mageConfig->getModuleDir('etc', $name);
-            }
-        }
-
-        return $folders;
     }
 }

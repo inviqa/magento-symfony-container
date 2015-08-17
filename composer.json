@@ -4,16 +4,15 @@
     "license": "proprietary",
     "description": "Provides Magento with an instance of a Symfony DI Container",
     "require": {
-        "inviqa/symfony-container-generator": "^0.1.3"
+        "inviqa/symfony-container-generator": "^0.1.4",
+        "phpspec/phpspec": "^2.2"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:inviqa/magento-symfony-container.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:inviqa/symfony-container-generator.git"
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-0": {
+            "": "app/code/community"
         }
-    ]
+    }
 }
