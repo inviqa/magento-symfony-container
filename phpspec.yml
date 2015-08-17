@@ -1,0 +1,4 @@
+suites:
+  default:
+    src_path: app/code/community
+    spec_path: app/code
