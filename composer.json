@@ -4,7 +4,9 @@
     "license": "proprietary",
     "description": "Provides Magento with an instance of a Symfony DI Container",
     "require": {
-        "inviqa/symfony-container-generator": "^0.1.4",
+        "inviqa/symfony-container-generator": "^0.1.4"
+    },
+    "require-dev": {
         "phpspec/phpspec": "^2.2"
     },
     "config": {
