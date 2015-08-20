@@ -7,6 +7,8 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilder
     const MODEL_ALIAS = 'inviqa_symfonyContainer';
 
     const CACHED_CONTAINER = 'container.cache.php';
+    const ENVIRONMENT_NODE = 'global/environment';
+    const TEST_ENVIRONMENT = 'test';
 
     /**
      * @param array $services Awkward way of passing deps to spec mage object
@@ -25,13 +27,16 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilder
     {
         $servicesFormat = 'xml';
         $cachedContainer = $this->_baseDir . '/' . self::CACHED_CONTAINER;
-
-        return Configuration::fromParameters(
+        $configuration = Configuration::fromParameters(
             $cachedContainer,
             $this->_collectConfigFolders(),
             !$this->_app->useCache(self::MODEL_ALIAS),
             $servicesFormat
         );
+
+        $configuration->setTestEnvironment($this->_isTestEnvironment());
+
+        return $configuration;
     }
 
     /**
@@ -58,5 +63,13 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilder
         }
 
         return $folders;
+    }
+
+    /**
+     * @return bool
+     */
+    private function _isTestEnvironment()
+    {
+        return $this->_config->getNode(self::ENVIRONMENT_NODE) === self::TEST_ENVIRONMENT;
     }
 }

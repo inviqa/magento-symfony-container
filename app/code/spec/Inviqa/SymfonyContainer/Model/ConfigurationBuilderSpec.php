@@ -15,6 +15,8 @@ use Prophecy\Argument;
 
 class Inviqa_SymfonyContainer_Model_ConfigurationBuilderSpec extends ObjectBehavior
 {
+    const TEST_ENVIRONMENT = 'test';
+
     function let(MageApp $app, MageConfig $config, MageConfigOptions $configOptions, MageConfigNode $configNode)
     {
         $configNode->children()->willReturn([]);
@@ -23,6 +25,7 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilderSpec extends ObjectBehav
 
         $config->getOptions()->willReturn($configOptions);
         $config->getNode('modules')->willReturn($configNode);
+        $config->getNode('global/environment')->willReturn();
 
         $services = [
             'app' => $app,
@@ -92,5 +95,13 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilderSpec extends ObjectBehav
         $configuration = $this->build();
 
         $configuration->getServicesFolders()->shouldBe(['app/etc', 'app/module1/etc']);
+    }
+
+    function it_builds_a_generator_configuration_and_sets_test_environment_to_true(MageConfig $config)
+    {
+        $config->getNode('global/environment')->willReturn(self::TEST_ENVIRONMENT);
+        $configuration = $this->build();
+
+        $configuration->isTestEnvironment()->shouldBe(true);
     }
 }
