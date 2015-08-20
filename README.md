@@ -101,3 +101,6 @@ class Inviqa_Acme_IndexController
 ```php
 $container = Mage::helper('inviqa_symfonyContainer/containerProvider')->getContainer();
 ```
+
+### Test Environment
+The configuration builder reads the magento configuration node "global/environment" and uses this to switch the container generator to test environment. The string expected in "global/environment" node is "test". In this mode, the container generator will read addtiaional services_test.xml files, which will override services defined in services.xml if their id's match. In this way, you can use "mock" services for integration testing purposes. (see additional documentation in https://github.com/inviqa/symfony-container-generator)
