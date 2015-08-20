@@ -70,6 +70,6 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilder
      */
     private function _isTestEnvironment()
     {
-        return $this->_config->getNode(self::ENVIRONMENT_NODE) === self::TEST_ENVIRONMENT;
+        return (string) $this->_config->getNode(self::ENVIRONMENT_NODE) === self::TEST_ENVIRONMENT;
     }
 }
