@@ -17,6 +17,7 @@ class Inviqa_SymfonyContainer_Helper_ContainerProviderSpec extends ObjectBehavio
         $generatorConfig->getServicesFolders()->willReturn(['app/etc']);
         $generatorConfig->getServicesFormat()->willReturn('xml');
         $generatorConfig->getCompilerPasses()->willReturn([]);
+        $generatorConfig->isTestEnvironment()->willReturn(false);
 
         $services = [
             'generatorConfig' => $generatorConfig
