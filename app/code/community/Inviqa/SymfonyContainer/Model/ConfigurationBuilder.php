@@ -10,6 +10,22 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilder
     const ENVIRONMENT_NODE = 'global/environment';
     const TEST_ENVIRONMENT = 'test';
 
+
+    /**
+     * @var Mage_Core_Model_App
+     */
+    private $_app;
+
+    /**
+     * @var string
+     */
+    private $_baseDir;
+
+    /**
+     * @var Mage_Core_Model_Config
+     */
+    private $_config;
+
     /**
      * @param array $services Awkward way of passing deps to spec mage object
      */

@@ -5,6 +5,17 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass implements CompilerPassInterface
 {
+
+    /**
+     * @var Mage_Core_Model_App
+     */
+    private $_app;
+
+    public function __construct(array $services = array())
+    {
+        $this->_app = isset($services['app']) ? $services['app'] : Mage::app();
+    }
+
     /**
      * Adds requested store configuration as an argument to the services
      *
@@ -21,7 +32,7 @@ class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass implements CompilerP
 
             foreach ($tag as $attribute) {
                 if (isset($attribute['key'])) {
-                    $configValue = Mage::getStoreConfig($attribute['key']);
+                    $configValue = $this->_app->getStore()->getConfig($attribute['key']);
                     $definition->addArgument($configValue);
                 }
             }
