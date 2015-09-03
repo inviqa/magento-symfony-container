@@ -46,16 +46,18 @@ class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPassSpec extends ObjectBe
         $this->process($container);
     }
 
-    function it_does_not_add_an_argument_to_service_def_if_tag_has_no_value(ContainerBuilder $container, Definition $definition)
+    function it_add_a_null_argument_to_service_def_if_tag_has_no_value(MageStore $mageStore, ContainerBuilder $container, Definition $definition)
     {
         $container->findTaggedServiceIds('mage.config')->willReturn([
             'my.service' => [
-                'mage.config' => ['key' => null]
+                'mage.config' => ['key' => '']
             ]
         ]);
 
+        $mageStore->getConfig('')->shouldBeCalled();
+
         $container->findDefinition('my.service')->willReturn($definition);
-        $definition->addArgument(Argument::any())->shouldNotBeCalled();
+        $definition->addArgument(null)->shouldBeCalled();
 
         $this->process($container);
     }
