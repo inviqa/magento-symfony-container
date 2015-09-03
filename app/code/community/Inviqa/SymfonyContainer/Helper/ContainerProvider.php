@@ -38,7 +38,7 @@ class Inviqa_SymfonyContainer_Helper_ContainerProvider
      */
     private function _buildContainer()
     {
-        $this->_generatorConfig->addCompilerPass(new Inviqa_SymfonyContainer_Model_ExampleCompilerPass());
+        $this->_generatorConfig->addCompilerPass(new Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass());
 
         $generator = new ContainerGenerator($this->_generatorConfig);
 
