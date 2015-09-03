@@ -4,6 +4,7 @@ namespace spec;
 
 use Bridge\MageApp;
 use Bridge\MageStore;
+use Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -13,7 +14,7 @@ class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPassSpec extends ObjectBe
 {
     function let(MageApp $app, MageStore $mageStore)
     {
-        $mageStore->getConfig('store/config/key')->willReturn('value');
+        $mageStore->getConfig('store/config/key')->willReturn('some_value');
 
         $app->getStore()->willReturn($mageStore);
         $services = [
@@ -25,7 +26,7 @@ class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPassSpec extends ObjectBe
 
     function it_does_not_add_an_argument_to_service_def_if_tag_does_not_exist(ContainerBuilder $container)
     {
-        $container->findTaggedServiceIds('mage.config')->willReturn([]);
+        $container->findTaggedServiceIds(Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass::TAG_NAME)->willReturn([]);
 
         $container->findDefinition(Argument::any())->shouldNotBeCalled();
 
@@ -36,7 +37,7 @@ class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPassSpec extends ObjectBe
     {
         $container->findTaggedServiceIds('mage.config')->willReturn([
             'my.service' => [
-                'mage.config' => null
+                Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass::TAG_NAME => null
             ]
         ]);
 
@@ -50,7 +51,7 @@ class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPassSpec extends ObjectBe
     {
         $container->findTaggedServiceIds('mage.config')->willReturn([
             'my.service' => [
-                'mage.config' => ['key' => '']
+                Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass::TAG_NAME => ['key' => '']
             ]
         ]);
 
@@ -66,12 +67,12 @@ class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPassSpec extends ObjectBe
     {
         $container->findTaggedServiceIds('mage.config')->willReturn([
             'my.service' => [
-                'mage.config' => ['key' => 'store/config/key']
+                Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass::TAG_NAME => ['key' => 'store/config/key']
             ]
         ]);
 
         $container->findDefinition('my.service')->willReturn($definition);
-        $definition->addArgument('value')->shouldBeCalled();
+        $definition->addArgument('some_value')->shouldBeCalled();
 
         $this->process($container);
     }
