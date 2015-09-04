@@ -14,7 +14,7 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilder
     /**
      * @var Mage_Core_Model_App
      */
-    private $_app;
+    private $_mageApp;
 
     /**
      * @var string
@@ -31,7 +31,7 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilder
      */
     public function __construct(array $services = array())
     {
-        $this->_app = isset($services['app']) ? $services['app'] : Mage::app();
+        $this->_mageApp = isset($services['app']) ? $services['app'] : Mage::app();
         $this->_baseDir = isset($services['baseDir']) ? $services['baseDir'] : Mage::getBaseDir('cache');
         $this->_config = isset($services['config']) ? $services['config'] : Mage::getConfig();
     }
@@ -46,7 +46,7 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilder
         $configuration = Configuration::fromParameters(
             $cachedContainer,
             $this->_collectConfigFolders(),
-            !$this->_app->useCache(self::MODEL_ALIAS),
+            !$this->_mageApp->useCache(self::MODEL_ALIAS),
             $servicesFormat
         );
 

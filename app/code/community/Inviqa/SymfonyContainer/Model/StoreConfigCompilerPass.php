@@ -2,6 +2,7 @@
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 
 class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass implements CompilerPassInterface
 {
@@ -10,11 +11,11 @@ class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass implements CompilerP
     /**
      * @var Mage_Core_Model_App
      */
-    private $_app;
+    private $_mageApp;
 
     public function __construct(array $services = array())
     {
-        $this->_app = isset($services['app']) ? $services['app'] : Mage::app();
+        $this->_mageApp = isset($services['app']) ? $services['app'] : Mage::app();
     }
 
     /**
@@ -31,11 +32,20 @@ class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass implements CompilerP
         foreach ($taggedServices as $id => $tag) {
             $definition = $container->findDefinition($id);
 
-            foreach ($tag as $attribute) {
-                if (isset($attribute['key'])) {
-                    $configValue = $this->_app->getStore()->getConfig($attribute['key']);
-                    $definition->addArgument($configValue);
-                }
+            $this->processTag($tag, $definition);
+        }
+    }
+
+    /**
+     * @param string $tag
+     * @param Definition $definition
+     */
+    private function processTag($tag, Definition $definition)
+    {
+        foreach ($tag as $attribute) {
+            if (isset($attribute['key'])) {
+                $configValue = $this->_mageApp->getStore()->getConfig($attribute['key']);
+                $definition->addArgument($configValue);
             }
         }
     }

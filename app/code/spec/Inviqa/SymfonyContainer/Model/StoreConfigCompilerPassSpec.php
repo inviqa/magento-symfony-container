@@ -4,7 +4,7 @@ namespace spec;
 
 use Bridge\MageApp;
 use Bridge\MageStore;
-use Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass;
+use Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass as StoreConfigCompilerPass;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -12,9 +12,11 @@ use Symfony\Component\DependencyInjection\Definition;
 
 class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPassSpec extends ObjectBehavior
 {
+    private $storeConfigKey = 'store/config/key';
+
     function let(MageApp $app, MageStore $mageStore)
     {
-        $mageStore->getConfig('store/config/key')->willReturn('some_value');
+        $mageStore->getConfig($this->storeConfigKey)->willReturn('some_value');
 
         $app->getStore()->willReturn($mageStore);
         $services = [
@@ -26,7 +28,7 @@ class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPassSpec extends ObjectBe
 
     function it_does_not_add_an_argument_to_service_def_if_tag_does_not_exist(ContainerBuilder $container)
     {
-        $container->findTaggedServiceIds(Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass::TAG_NAME)->willReturn([]);
+        $container->findTaggedServiceIds(StoreConfigCompilerPass::TAG_NAME)->willReturn([]);
 
         $container->findDefinition(Argument::any())->shouldNotBeCalled();
 
@@ -35,9 +37,9 @@ class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPassSpec extends ObjectBe
 
     function it_does_not_add_an_argument_to_service_def_if_attribute_does_not_exist(ContainerBuilder $container, Definition $definition)
     {
-        $container->findTaggedServiceIds('mage.config')->willReturn([
+        $container->findTaggedServiceIds(StoreConfigCompilerPass::TAG_NAME)->willReturn([
             'my.service' => [
-                Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass::TAG_NAME => null
+                StoreConfigCompilerPass::TAG_NAME => null
             ]
         ]);
 
@@ -49,9 +51,9 @@ class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPassSpec extends ObjectBe
 
     function it_add_a_null_argument_to_service_def_if_tag_has_no_value(MageStore $mageStore, ContainerBuilder $container, Definition $definition)
     {
-        $container->findTaggedServiceIds('mage.config')->willReturn([
+        $container->findTaggedServiceIds(StoreConfigCompilerPass::TAG_NAME)->willReturn([
             'my.service' => [
-                Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass::TAG_NAME => ['key' => '']
+                StoreConfigCompilerPass::TAG_NAME => ['key' => '']
             ]
         ]);
 
@@ -65,9 +67,9 @@ class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPassSpec extends ObjectBe
 
     function it_adds_an_argument_to_service_def_if_tag_has_value(ContainerBuilder $container, Definition $definition)
     {
-        $container->findTaggedServiceIds('mage.config')->willReturn([
+        $container->findTaggedServiceIds(StoreConfigCompilerPass::TAG_NAME)->willReturn([
             'my.service' => [
-                Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass::TAG_NAME => ['key' => 'store/config/key']
+                StoreConfigCompilerPass::TAG_NAME => ['key' => $this->storeConfigKey]
             ]
         ]);
 
