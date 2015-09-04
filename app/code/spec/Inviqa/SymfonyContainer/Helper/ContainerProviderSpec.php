@@ -3,6 +3,7 @@
 namespace spec;
 
 use ContainerTools\Configuration;
+use Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass as StoreConfigCompilerPass;
 use Symfony\Component\DependencyInjection\Container;
 
 use PhpSpec\ObjectBehavior;
@@ -10,7 +11,7 @@ use Prophecy\Argument;
 
 class Inviqa_SymfonyContainer_Helper_ContainerProviderSpec extends ObjectBehavior
 {
-    function let(Configuration $generatorConfig)
+    function let(Configuration $generatorConfig, StoreConfigCompilerPass $configCompilerPass)
     {
         $generatorConfig->getContainerFilePath()->willReturn('container.php');
         $generatorConfig->getDebug()->willReturn(true);
@@ -20,7 +21,8 @@ class Inviqa_SymfonyContainer_Helper_ContainerProviderSpec extends ObjectBehavio
         $generatorConfig->isTestEnvironment()->willReturn(false);
 
         $services = [
-            'generatorConfig' => $generatorConfig
+            'generatorConfig' => $generatorConfig,
+            'storeConfigCompilerPass' => $configCompilerPass
         ];
 
         $this->beConstructedWith($services);

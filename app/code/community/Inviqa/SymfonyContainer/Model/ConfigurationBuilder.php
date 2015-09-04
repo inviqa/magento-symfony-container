@@ -10,12 +10,28 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilder
     const ENVIRONMENT_NODE = 'global/environment';
     const TEST_ENVIRONMENT = 'test';
 
+
+    /**
+     * @var Mage_Core_Model_App
+     */
+    private $_mageApp;
+
+    /**
+     * @var string
+     */
+    private $_baseDir;
+
+    /**
+     * @var Mage_Core_Model_Config
+     */
+    private $_config;
+
     /**
      * @param array $services Awkward way of passing deps to spec mage object
      */
     public function __construct(array $services = array())
     {
-        $this->_app = isset($services['app']) ? $services['app'] : Mage::app();
+        $this->_mageApp = isset($services['app']) ? $services['app'] : Mage::app();
         $this->_baseDir = isset($services['baseDir']) ? $services['baseDir'] : Mage::getBaseDir('cache');
         $this->_config = isset($services['config']) ? $services['config'] : Mage::getConfig();
     }
@@ -30,7 +46,7 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilder
         $configuration = Configuration::fromParameters(
             $cachedContainer,
             $this->_collectConfigFolders(),
-            !$this->_app->useCache(self::MODEL_ALIAS),
+            !$this->_mageApp->useCache(self::MODEL_ALIAS),
             $servicesFormat
         );
 
