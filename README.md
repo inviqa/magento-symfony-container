@@ -111,7 +111,7 @@ If your service requires a value from the store config, something which would no
 ```xml
     <services>
         <service id="acme.service" class="Acme_Service">
-	    <argument type="service" id="some.service"/>
+            <argument type="service" id="some.service"/>
             <tag name="mage.config" key="payment/amazonpayments_cba/title"/>
             <tag name="mage.config" key="web/secure/base_url"/>
         </service>
@@ -125,7 +125,7 @@ class Acme_Service
 {
     public function __construct(SomeSerivce $someService, $amazonPaymentsTitle, $secureBaseUrl)
     {
-	$this->_secureBaseUrl = $secureBaseUrl; // will have value of e.g: https://my-magento.dev/  
+        $this->_secureBaseUrl = $secureBaseUrl; // will have value of e.g: https://my-magento.dev/  
     }
 }
 ```
