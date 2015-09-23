@@ -22,6 +22,12 @@ class Inviqa_SymfonyContainer_Helper_ContainerProvider
      */
     private $_storeConfigCompilerPass;
 
+
+    /**
+     * @var CompilerPassInterface
+     */
+    private $_controllerInjectionCompilerPass;
+
     public function __construct(array $services = array())
     {
         $this->_generatorConfig = isset($services['generatorConfig']) ?
@@ -31,6 +37,10 @@ class Inviqa_SymfonyContainer_Helper_ContainerProvider
         $this->_storeConfigCompilerPass = isset($services['storeConfigCompilerPass']) ?
             $services['storeConfigCompilerPass'] :
             Mage::getModel('inviqa_symfonyContainer/storeConfigCompilerPass');
+
+        $this->_controllerInjectionCompilerPass = isset($services['controllerInjectionCompilerPass']) ?
+            $services['controllerInjectionCompilerPass'] :
+            Mage::getModel('inviqa_symfonyContainer/controllerInjectionCompilerPass');
     }
 
     /**
@@ -47,6 +57,7 @@ class Inviqa_SymfonyContainer_Helper_ContainerProvider
     private function _buildContainer()
     {
         $this->_generatorConfig->addCompilerPass($this->_storeConfigCompilerPass);
+        $this->_generatorConfig->addCompilerPass($this->_controllerInjectionCompilerPass);
 
         $generator = new ContainerGenerator($this->_generatorConfig);
 

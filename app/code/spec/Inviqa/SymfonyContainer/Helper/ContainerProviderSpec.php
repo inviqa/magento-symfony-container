@@ -4,6 +4,7 @@ namespace spec;
 
 use ContainerTools\Configuration;
 use Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass as StoreConfigCompilerPass;
+use Inviqa_SymfonyContainer_Model_ControllerInjectionCompilerPass as ControllerInjectionCompilerPass;
 use Symfony\Component\DependencyInjection\Container;
 
 use PhpSpec\ObjectBehavior;
@@ -11,7 +12,7 @@ use Prophecy\Argument;
 
 class Inviqa_SymfonyContainer_Helper_ContainerProviderSpec extends ObjectBehavior
 {
-    function let(Configuration $generatorConfig, StoreConfigCompilerPass $configCompilerPass)
+    function let(Configuration $generatorConfig, StoreConfigCompilerPass $configCompilerPass, ControllerInjectionCompilerPass $controllerInjectionCompilerPass)
     {
         $generatorConfig->getContainerFilePath()->willReturn('container.php');
         $generatorConfig->getDebug()->willReturn(true);
@@ -22,7 +23,8 @@ class Inviqa_SymfonyContainer_Helper_ContainerProviderSpec extends ObjectBehavio
 
         $services = [
             'generatorConfig' => $generatorConfig,
-            'storeConfigCompilerPass' => $configCompilerPass
+            'storeConfigCompilerPass' => $configCompilerPass,
+            'controllerInjectionCompilerPass' => $controllerInjectionCompilerPass
         ];
 
         $this->beConstructedWith($services);
@@ -35,9 +37,10 @@ class Inviqa_SymfonyContainer_Helper_ContainerProviderSpec extends ObjectBehavio
         $this->getContainer()->shouldBeAnInstanceOf(Container::class);
     }
 
-    function it_memoizes_container(Configuration $generatorConfig)
+    function it_memoizes_container(Configuration $generatorConfig, StoreConfigCompilerPass $configCompilerPass, ControllerInjectionCompilerPass $controllerInjectionCompilerPass)
     {
-        $generatorConfig->addCompilerPass(Argument::any())->shouldBeCalledTimes(1);
+        $generatorConfig->addCompilerPass($configCompilerPass)->shouldBeCalledTimes(1);
+        $generatorConfig->addCompilerPass($controllerInjectionCompilerPass)->shouldBeCalledTimes(1);
 
         $container = $this->getContainer();
         $this->getContainer()->shouldBe($container);
