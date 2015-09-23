@@ -1,5 +1,5 @@
 <?php
-use Inviqa_SymfonyContainer_Model_ControllerInjectionCompilerPass as ControllerInjectionCompilerPass;
+use Inviqa_SymfonyContainer_Model_InjectableCompilerPass as InjectableCompilerPass;
 
 class Inviqa_SymfonyContainer_Model_Observer
 {
@@ -14,7 +14,7 @@ class Inviqa_SymfonyContainer_Model_Observer
     public function onPreDispatch(Varien_Event_Observer $event)
     {
         $controller = $event->getControllerAction();
-        $controllerServices = $this->getService(ControllerInjectionCompilerPass::CONTROLLERS_SERVICE_ID)->controllers;
+        $controllerServices = $this->getService(InjectableCompilerPass::INJECTABLES_SERVICE_ID)->controllers;
 
         if (!isset($controllerServices[get_class($controller)])) {
             return;

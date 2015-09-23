@@ -2,15 +2,13 @@
 
 namespace spec;
 
-use Bridge\MageApp;
-use Bridge\MageStore;
-use Inviqa_SymfonyContainer_Model_ControllerInjectionCompilerPass as ControllerInjectionCompilerPass;
+use Inviqa_SymfonyContainer_Model_InjectableCompilerPass as InjectableCompilerPass;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
-class Inviqa_SymfonyContainer_Model_ControllerInjectionCompilerPassSpec extends ObjectBehavior
+class Inviqa_SymfonyContainer_Model_InjectableCompilerPassSpec extends ObjectBehavior
 {
     function let(ContainerBuilder $container)
     {
@@ -19,7 +17,7 @@ class Inviqa_SymfonyContainer_Model_ControllerInjectionCompilerPassSpec extends 
 
     function it_does_not_add_an_argument_to_service_def_if_tag_does_not_exist(ContainerBuilder $container)
     {
-        $container->findTaggedServiceIds(ControllerInjectionCompilerPass::TAG_NAME)->willReturn([]);
+        $container->findTaggedServiceIds(InjectableCompilerPass::TAG_NAME)->willReturn([]);
 
         $container->findDefinition(Argument::any())->shouldNotBeCalled();
 
@@ -29,13 +27,13 @@ class Inviqa_SymfonyContainer_Model_ControllerInjectionCompilerPassSpec extends 
 
     function it_sets_services_to_array_of_controller_services_definitions(ContainerBuilder $container, Definition $definition1, Definition $definition2)
     {
-        $container->findTaggedServiceIds(ControllerInjectionCompilerPass::TAG_NAME)->willReturn([
-            'my.first.controller' => [ ControllerInjectionCompilerPass::TAG_NAME ],
-            'my.second.controller' => [ ControllerInjectionCompilerPass::TAG_NAME ],
+        $container->findTaggedServiceIds(InjectableCompilerPass::TAG_NAME)->willReturn([
+            'my.first.controller' => [ InjectableCompilerPass::TAG_NAME ],
+            'my.second.controller' => [ InjectableCompilerPass::TAG_NAME ],
         ]);
 
         $controllersObject = (object) array(
-            ControllerInjectionCompilerPass::CONTROLLERS_SERVICE_ID => array(
+            InjectableCompilerPass::INJECTABLES_SERVICE_ID => array(
                 'My_First_Controller' => [
                     0 => 'arg1',
                     1 => 'arg2'
@@ -63,7 +61,7 @@ class Inviqa_SymfonyContainer_Model_ControllerInjectionCompilerPassSpec extends 
 
         $this->process($container);
 
-        $container->set(ControllerInjectionCompilerPass::CONTROLLERS_SERVICE_ID, $controllersObject)->shouldHaveBeenCalled();
+        $container->set(InjectableCompilerPass::INJECTABLES_SERVICE_ID, $controllersObject)->shouldHaveBeenCalled();
 
     }
 }

@@ -4,7 +4,7 @@ namespace spec;
 
 use ContainerTools\Configuration;
 use Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass as StoreConfigCompilerPass;
-use Inviqa_SymfonyContainer_Model_ControllerInjectionCompilerPass as ControllerInjectionCompilerPass;
+use Inviqa_SymfonyContainer_Model_InjectableCompilerPass as InjectableCompilerPass;
 use Symfony\Component\DependencyInjection\Container;
 
 use PhpSpec\ObjectBehavior;
@@ -12,7 +12,7 @@ use Prophecy\Argument;
 
 class Inviqa_SymfonyContainer_Helper_ContainerProviderSpec extends ObjectBehavior
 {
-    function let(Configuration $generatorConfig, StoreConfigCompilerPass $configCompilerPass, ControllerInjectionCompilerPass $controllerInjectionCompilerPass)
+    function let(Configuration $generatorConfig, StoreConfigCompilerPass $configCompilerPass, InjectableCompilerPass $injectableCompilerPass)
     {
         $generatorConfig->getContainerFilePath()->willReturn('container.php');
         $generatorConfig->getDebug()->willReturn(true);
@@ -24,7 +24,7 @@ class Inviqa_SymfonyContainer_Helper_ContainerProviderSpec extends ObjectBehavio
         $services = [
             'generatorConfig' => $generatorConfig,
             'storeConfigCompilerPass' => $configCompilerPass,
-            'controllerInjectionCompilerPass' => $controllerInjectionCompilerPass
+            'injectableCompilerPass' => $injectableCompilerPass
         ];
 
         $this->beConstructedWith($services);
@@ -37,10 +37,10 @@ class Inviqa_SymfonyContainer_Helper_ContainerProviderSpec extends ObjectBehavio
         $this->getContainer()->shouldBeAnInstanceOf(Container::class);
     }
 
-    function it_memoizes_container(Configuration $generatorConfig, StoreConfigCompilerPass $configCompilerPass, ControllerInjectionCompilerPass $controllerInjectionCompilerPass)
+    function it_memoizes_container(Configuration $generatorConfig, StoreConfigCompilerPass $configCompilerPass, InjectableCompilerPass $injectableCompilerPass)
     {
         $generatorConfig->addCompilerPass($configCompilerPass)->shouldBeCalledTimes(1);
-        $generatorConfig->addCompilerPass($controllerInjectionCompilerPass)->shouldBeCalledTimes(1);
+        $generatorConfig->addCompilerPass($injectableCompilerPass)->shouldBeCalledTimes(1);
 
         $container = $this->getContainer();
         $this->getContainer()->shouldBe($container);

@@ -4,11 +4,11 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
-class Inviqa_SymfonyContainer_Model_ControllerInjectionCompilerPass implements CompilerPassInterface
+class Inviqa_SymfonyContainer_Model_InjectableCompilerPass implements CompilerPassInterface
 {
-    const TAG_NAME = 'mage.controller';
+    const TAG_NAME = 'mage.injectable';
 
-    const CONTROLLERS_SERVICE_ID = 'controllers';
+    const INJECTABLES_SERVICE_ID = 'mage.injectables';
 
     /**
      * @param ContainerBuilder $container
@@ -20,7 +20,7 @@ class Inviqa_SymfonyContainer_Model_ControllerInjectionCompilerPass implements C
         );
 
         $controllersObject = (object) array(
-            self::CONTROLLERS_SERVICE_ID => array()
+            self::INJECTABLES_SERVICE_ID => array()
         );
 
         foreach ($taggedServices as $id => $tag) {
@@ -28,7 +28,7 @@ class Inviqa_SymfonyContainer_Model_ControllerInjectionCompilerPass implements C
             $this->addDefinitionArguments($container->findDefinition($id), $controllersObject);
         }
 
-        $container->set(self::CONTROLLERS_SERVICE_ID, $controllersObject);
+        $container->set(self::INJECTABLES_SERVICE_ID, $controllersObject);
     }
 
     /**
