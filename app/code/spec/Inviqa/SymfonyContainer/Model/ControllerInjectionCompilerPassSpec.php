@@ -12,16 +12,9 @@ use Symfony\Component\DependencyInjection\Definition;
 
 class Inviqa_SymfonyContainer_Model_ControllerInjectionCompilerPassSpec extends ObjectBehavior
 {
-    function let(MageApp $app, MageStore $mageStore, ContainerBuilder $container)
+    function let(ContainerBuilder $container)
     {
-        $app->getStore()->willReturn($mageStore);
-        $services = [
-            'app' => $app
-        ];
-
         $container->set(Argument::cetera())->shouldBeCalled();
-
-        $this->beConstructedWith($services);
     }
 
     function it_does_not_add_an_argument_to_service_def_if_tag_does_not_exist(ContainerBuilder $container)

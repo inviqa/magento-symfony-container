@@ -11,16 +11,6 @@ class Inviqa_SymfonyContainer_Model_ControllerInjectionCompilerPass implements C
     const CONTROLLERS_SERVICE_ID = 'controllers';
 
     /**
-     * @var Mage_Core_Model_App
-     */
-    private $_mageApp;
-
-    public function __construct(array $services = array())
-    {
-        $this->_mageApp = isset($services['app']) ? $services['app'] : Mage::app();
-    }
-
-    /**
      * Adds requested store configuration as an argument to the services
      *
      * @param ContainerBuilder $container
