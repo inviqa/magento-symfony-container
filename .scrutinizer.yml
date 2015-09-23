@@ -19,14 +19,21 @@ build_failure_conditions:
     - 'issues.severity(>= MAJOR).new.exists'
 
 tools:
-    php_code_sniffer: { config: { standard: psr2 } }
-    php_cs_fixer: { config: { level: psr2 } }
     external_code_coverage: false
-    php_code_coverage: false
-    php_changetracking: true
+    php_code_coverage:      false
+    php_code_sniffer:
+        config: { standard: 'Ecg' }
+    php_changetracking: false
     php_sim: true
+    php_cs_fixer: false
     php_mess_detector: true
     php_pdepend: true
     php_analyzer: true
     sensiolabs_security_checker: true
 
+checks:
+    php:
+        custom_coding_standard:
+            git_repository: 'https://github.com/inviqa/magento-phpcs-coding-standard.git'
+            git_version: 'origin/master'
+            ruleset_path: 'ruleset.xml'
