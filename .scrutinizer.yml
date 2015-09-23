@@ -1,0 +1,32 @@
+inherit: true
+
+build:
+    environment:
+        php: '5.5.25'
+    dependencies:
+        override:
+            - { command: 'composer install --no-interaction --prefer-source', idle_timeout: 600 }
+    tests:
+        override:
+            - bin/phpspec run --format=dot
+
+filter:
+    paths: [app/code/community/*]
+
+build_failure_conditions:
+    - 'elements.rating(<= D).new.exists'
+    - 'issues.label("coding-style").new.exists'
+    - 'issues.severity(>= MAJOR).new.exists'
+
+tools:
+    php_code_sniffer: { config: { standard: psr2 } }
+    php_cs_fixer: { config: { level: psr2 } }
+    external_code_coverage: false
+    php_code_coverage: false
+    php_changetracking: true
+    php_sim: true
+    php_mess_detector: true
+    php_pdepend: true
+    php_analyzer: true
+    sensiolabs_security_checker: true
+
