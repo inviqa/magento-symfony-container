@@ -37,7 +37,7 @@ class Inviqa_SymfonyContainer_Model_StoreConfigCompilerPass implements CompilerP
     }
 
     /**
-     * @param string $tag
+     * @param array $tag
      * @param Definition $definition
      */
     private function processTag($tag, Definition $definition)
