@@ -11,8 +11,6 @@ class Inviqa_SymfonyContainer_Model_ControllerInjectionCompilerPass implements C
     const CONTROLLERS_SERVICE_ID = 'controllers';
 
     /**
-     * Adds requested store configuration as an argument to the services
-     *
      * @param ContainerBuilder $container
      */
     public function process(ContainerBuilder $container)
@@ -27,14 +25,22 @@ class Inviqa_SymfonyContainer_Model_ControllerInjectionCompilerPass implements C
 
         foreach ($taggedServices as $id => $tag) {
 
-            $definition = $container->findDefinition($id);
-
-            $controllersObject->controllers[$definition->getClass()] = array();
-            for ($arg=0; $arg < count($definition->getArguments()); $arg++) {
-                $controllersObject->controllers[$definition->getClass()][$arg] =  $definition->getArgument($arg);
-            }
+            $this->addDefinitionArguments($container->findDefinition($id), $controllersObject);
         }
 
         $container->set(self::CONTROLLERS_SERVICE_ID, $controllersObject);
+    }
+
+    /**
+     * @param $definition
+     * @param $controllersObject
+     */
+    private function addDefinitionArguments(Definition $definition, stdClass $controllersObject)
+    {
+        $controllersObject->controllers[$definition->getClass()] = array();
+
+        for ($arg = 0; $arg < count($definition->getArguments()); $arg++) {
+            $controllersObject->controllers[$definition->getClass()][$arg] = $definition->getArgument($arg);
+        }
     }
 }
