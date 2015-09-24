@@ -1,3 +1,5 @@
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/inviqa/magento-symfony-container/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/inviqa/magento-symfony-container/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/inviqa/magento-symfony-container/badges/build.png?b=master)](https://scrutinizer-ci.com/g/inviqa/magento-symfony-container/build-status/master)
 # magento-symfony-container
 Provides Magento with an instance of a Symfony DI Container
 
