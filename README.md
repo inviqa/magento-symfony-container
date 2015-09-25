@@ -3,7 +3,7 @@
 # magento-symfony-container
 Provides Magento with an instance of a Symfony DI Container
 
-For documentation on the Symfony DI Componenent here [here](http://symfony.com/doc/current/components/dependency_injection/index.html)
+Documentation on the Symfony DI Componenent can be found [here](http://symfony.com/doc/current/components/dependency_injection/index.html).
 
 Upon requesting the container for the first time, the configuration diretories are scanned and the container compiled. If developer mode is off, the container will be cached in public/var/cache/container.cache.php and subsequently ready from there. To force the cache to refresh simply delete this file. If you want to container to be built for every request, make your sure switch on Magento developer-mode (in this state any existing container.cache.php file will be ignored).
 
