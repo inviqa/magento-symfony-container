@@ -19,28 +19,28 @@ class Inviqa_SymfonyContainer_Model_InjectableCompilerPass implements CompilerPa
             self::TAG_NAME
         );
 
-        $controllersObject = (object) array(
+        $dependables = (object) array(
             self::INJECTABLES_SERVICE_ID => array()
         );
 
         foreach ($taggedServices as $id => $tag) {
 
-            $this->addDefinitionArguments($container->findDefinition($id), $controllersObject);
+            $this->addDefinitionArguments($container->findDefinition($id), $dependables);
         }
 
-        $container->set(self::INJECTABLES_SERVICE_ID, $controllersObject);
+        $container->set(self::INJECTABLES_SERVICE_ID, $dependables);
     }
 
     /**
      * @param $definition
      * @param $controllersObject
      */
-    private function addDefinitionArguments(Definition $definition, stdClass $controllersObject)
+    private function addDefinitionArguments(Definition $definition, stdClass $dependables)
     {
-        $controllersObject->controllers[$definition->getClass()] = array();
+        $dependables->references[$definition->getClass()] = array();
 
         for ($arg = 0; $arg < count($definition->getArguments()); $arg++) {
-            $controllersObject->controllers[$definition->getClass()][$arg] = $definition->getArgument($arg);
+            $dependables->references[$definition->getClass()][$arg] = $definition->getArgument($arg);
         }
     }
 }

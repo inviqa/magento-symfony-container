@@ -12,6 +12,6 @@ class Inviqa_SymfonyContainer_Model_Observer
     {
         $controller = $event->getControllerAction();
 
-        Mage::helper('inviqa_symfonyContainer/serviceInjector')->inject($controller);
+        Mage::helper('inviqa_symfonyContainer/serviceInjector')->setupDependencies($controller);
     }
 }
