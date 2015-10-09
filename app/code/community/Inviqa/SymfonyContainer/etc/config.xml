@@ -5,6 +5,7 @@
             <inviqa_symfonyContainer>
                 <class>Inviqa_SymfonyContainer_Model</class>
             </inviqa_symfonyContainer>
+
         </models>
         <helpers>
             <inviqa_symfonyContainer>
@@ -21,6 +22,15 @@
                     </inviqa_symfonyContainer>
                 </observers>
             </adminhtml_cache_refresh_type>
+            <controller_action_predispatch>
+                <observers>
+                    <inviqa_symfonyContainer>
+                        <class>Inviqa_SymfonyContainer_Model_Observer</class>
+                        <type>singleton</type>
+                        <method>onPreDispatch</method>
+                    </inviqa_symfonyContainer>
+                </observers>
+            </controller_action_predispatch>
         </events>
         <cache>
             <types>
