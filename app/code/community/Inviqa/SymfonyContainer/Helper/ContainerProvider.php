@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\Container;
 
 class Inviqa_SymfonyContainer_Helper_ContainerProvider
 {
+    const HELPER_NAME = 'inviqa_symfonyContainer/containerProvider';
 
     /**
      * @var Container

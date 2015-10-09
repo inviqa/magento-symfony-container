@@ -20,7 +20,7 @@ class Inviqa_SymfonyContainer_Model_InjectableCompilerPass implements CompilerPa
         );
 
         $dependables = (object) array(
-            self::INJECTABLES_SERVICE_ID => array()
+            'references' => array()
         );
 
         foreach ($taggedServices as $id => $tag) {
@@ -32,8 +32,8 @@ class Inviqa_SymfonyContainer_Model_InjectableCompilerPass implements CompilerPa
     }
 
     /**
-     * @param $definition
-     * @param $controllersObject
+     * @param Definition $definition
+     * @param stdClass $dependables
      */
     private function addDefinitionArguments(Definition $definition, stdClass $dependables)
     {

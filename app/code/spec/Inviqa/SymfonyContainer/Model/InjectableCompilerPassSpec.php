@@ -33,7 +33,7 @@ class Inviqa_SymfonyContainer_Model_InjectableCompilerPassSpec extends ObjectBeh
         ]);
 
         $controllersObject = (object) array(
-            InjectableCompilerPass::INJECTABLES_SERVICE_ID => array(
+            'references' => array(
                 'My_First_Controller' => [
                     0 => 'arg1',
                     1 => 'arg2'
