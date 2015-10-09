@@ -35,7 +35,7 @@ class Inviqa_SymfonyContainer_Model_ServiceInjector
 
         $services = $this->getServices($references[get_class($class)]);
 
-        call_user_func_array([$class, '__dependencies'], $services);
+        $class->__dependencies($services);
     }
 
     /**

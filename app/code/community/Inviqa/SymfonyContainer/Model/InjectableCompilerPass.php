@@ -37,10 +37,11 @@ class Inviqa_SymfonyContainer_Model_InjectableCompilerPass implements CompilerPa
      */
     private function addDefinitionArguments(Definition $definition, stdClass $dependables)
     {
-        $dependables->references[$definition->getClass()] = array();
+        $class = $definition->getClass();
+        $dependables->references[$class] = array();
 
         for ($arg = 0; $arg < count($definition->getArguments()); $arg++) {
-            $dependables->references[$definition->getClass()][$arg] = $definition->getArgument($arg);
+            $dependables->references[$class][$arg] = $definition->getArgument($arg);
         }
     }
 }
