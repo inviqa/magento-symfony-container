@@ -184,13 +184,13 @@ And the class itself will implement __dependencies() thus:
     }
 ```
 
-Your controller will still be coupled to Mage due to extending Controller, and thus - untestable, but it will be clear what the controllers dependencies are and they will be type-hinted.
+Unfortunately your controller will still be coupled to Mage due to extending Mage_Core_Controller_Front_Action, and thus - untestable as a unit, but it will be clear what the its' dependencies are and they will be type-hinted.
 
 To provide dependencies to other classes after they are instantiated, in addition to using the mage.injectable tag and implementing __dependencies, you will have to override your class' constructor, for example:
 ```php
     function __construct()
     {
-        Mage::getSingleton(Inviqa_SymfonyContainer_Model_Observer::SERVICE_INJECTOR)->setupDepdendencies($this);
+        Mage::getSingleton('inviqa_symfonyContainer/serviceInjector')->setupDepdendencies($this);
         parent::__construct();
     }
 ```
