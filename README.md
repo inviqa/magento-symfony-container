@@ -133,3 +133,64 @@ class Acme_Service
 ```
 
 If the specified key does not exist, or is empty, the argument will be null or empty.
+
+### Explicitly Providing Dependencies via __dependencies
+
+Certain Magento classes, such as controllers, observers and blocks are instantiated by the system and therefore cannot be instantiated by the DI Container, nevertheless an additional service tag can make it easier to explicitly provide dependencies to these classes. Adding the mage.injectable tag to a service will allow you to provide this services dependencies *after* the service has been instantiated. The services arguments will be provided to the __dependencies method provided you call ServiceInjector::setupDependencies($class) after service instantiation, and your service has a __dependencies method that contains typehints that match the arguments type an order.
+
+For convinience, setupDependencies is called on controllers by hooking into the pre-dispatch event, for other classes such as observers and blocks you will have to call it yourself by overriding the class constructor.
+
+For controllers, a service definition might look like this
+```xml
+        <service id="acme.product.catalog" class="Mage_Catalog_Model_Product">
+            <factory class="Mage" method="getModel"/>
+            <argument>catalog/product</argument>
+        </service>
+
+        <service id="acme.sales.order" class="Mage_Sales_Model_Order">
+            <factory class="Mage" method="getModel"/>
+            <argument>sales/order</argument>
+        </service>
+
+        <service id="controllers.acme" class="Acme_Shop_IndexController">
+            <argument type="service" id="acme.product.catalog"/>
+            <argument type="service" id="acme.sales.order"/>
+            <tag name="mage.injectable"/>
+        </service>
+```
+
+And the class itself will implement __dependencies() thus:
+```php
+    /**
+     * @var Mage_Catalog_Model_Product
+     */
+    private $catalog;
+
+    /**
+     * @var Mage_Sales_Model_Order
+     */
+    private $order;
+
+    /**
+     * @param Mage_Catalog_Model_Product $catalog
+     * @param Mage_Sales_Model_Order $order
+     */
+    public function __dependencies(
+        Mage_Catalog_Model_Product $catalog,
+        Mage_Sales_Model_Order $order
+    ) {
+        $this->catalog = $catalog;
+        $this->order = $order;
+    }
+```
+
+Your controller will still be coupled to Mage due to extending Controller, and thus - untestable, but it will be clear what the controllers dependencies are and they will be type-hinted.
+
+To provide dependencies to other classes after they are instantiated, in addition to using the mage.injectable tag and implementing __dependencies, you will have to override your class' constructor, for example:
+```php
+    function __construct()
+    {
+        Mage::getSingleton(Inviqa_SymfonyContainer_Model_Observer::SERVICE_INJECTOR)->setupDepdendencies($this);
+        parent::__construct();
+    }
+```
