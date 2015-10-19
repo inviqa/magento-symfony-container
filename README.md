@@ -107,7 +107,7 @@ $container = Mage::helper('inviqa_symfonyContainer/containerProvider')->getConta
 ### Test Environment
 The configuration builder reads the magento configuration node "global/environment" and uses this to switch the container generator to test environment. The string expected in "global/environment" node is "test". In this mode, the container generator will read addtiaional services_test.xml files, which will override services defined in services.xml if their id's match. In this way, you can use "mock" services for integration testing purposes. (see additional documentation in https://github.com/inviqa/symfony-container-generator)
 
-### Providing Magento Store Config Values to Service Constructors
+### Providing Magento Store Config Values to Service Constructors (since version 0.5.0)
 If your service requires a value from the store config, something which would normaly require calling Mage::getStoreConfig('web/secure/base_url') for example, you can use the special tag mage.config in place of an <argument> node in your service definition. The "key" attribute is a regular magento store config key. This will simply add the value of requested store config to the list of service constructor arguments:
 
 ```xml
