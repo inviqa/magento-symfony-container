@@ -18,6 +18,8 @@ class Inviqa_SymfonyContainer_Model_ServiceInjectorSpec extends ObjectBehavior
 
     function let(Container $container)
     {
+        $container->has(InjectableCompilerPass::INJECTABLES_SERVICE_ID)->willReturn(true);
+
         $this->referenceWithoutController = (object) [
             'references' => []
         ];
@@ -36,6 +38,14 @@ class Inviqa_SymfonyContainer_Model_ServiceInjectorSpec extends ObjectBehavior
 
         $this->beConstructedWith(['container' => $container]);
     }
+
+    function it_does_nothing_if_no_injectables_service_was_defined(Container $container)
+    {
+        $container->has(InjectableCompilerPass::INJECTABLES_SERVICE_ID)->willReturn(false);
+        $container->get(Argument::any())->shouldNotBeCalled();
+
+    }
+
 
     function it_does_not_set_up_dependencies_if_injectables_services_doesnt_contain_requested_class(Container $container)
     {
