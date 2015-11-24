@@ -16,5 +16,8 @@
         "psr-0": {
             "": "app/code/community"
         }
+    },
+    "extra": {
+        "magento-version-ee": "^1.12.0"
     }
 }
