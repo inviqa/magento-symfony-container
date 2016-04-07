@@ -4,7 +4,8 @@
     "license": "proprietary",
     "description": "Provides Magento with an instance of a Symfony DI Container",
     "require": {
-        "inviqa/symfony-container-generator": "^0.2"
+        "inviqa/symfony-container-generator": "^0.2",
+        "magento-hackathon/magento-composer-installer": "^3.0"
     },
     "require-dev": {
         "phpspec/phpspec": "^2.2"
@@ -18,6 +19,7 @@
         }
     },
     "extra": {
-        "magento-version-ee": "^1.12.0"
+        "magento-version-ee": "^1.12.0",
+        "magento-root-dir": "public"
     }
 }
