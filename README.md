@@ -3,13 +3,13 @@
 # magento-symfony-container
 Provides Magento with an instance of a Symfony DI Container
 
-Documentation on the Symfony DI Component can be found [here](http://symfony.com/doc/current/components/dependency_injection/index.html).
+Documentation for the Symfony DI Component can be found [here](http://symfony.com/doc/current/components/dependency_injection/index.html).
 
-Upon requesting the container for the first time, the configuration directories are scanned and the container compiled. If developer mode is off, the container will be cached in public/var/cache/container.cache.php and subsequently ready from there. To force the cache to refresh simply delete this file. If you want to container to be built for every request, make your sure switch on Magento developer-mode (in this state any existing container.cache.php file will be ignored).
+Upon requesting the container for the first time, the configuration directories are scanned and the container is compiled. The container will be cached in public/var/cache/container.cache.php and subsequently read from there. You can use the admin cache control panel to enable/disable caching for the container,  when disabled all service config files will be re-read when they are changed, otherwise they are ignored. To force the cache to refresh you can use n98-magerun or the admin cache-control panel.
 
 ## Services Configuration
 
-All services configuration files are expected to be found in either the system-wide etc/ directory or within each modules etc/ directory. The default format is XML, therefore the configuration files are expected to be called "services.xml"
+All services configuration files are expected to be found in either the system-wide etc/ directory or within each modules etc/ directory. The expected format is XML, therefore the configuration files are expected to be called "services.xml"
 
 The following is an example of defining a service named "acme.checkout", which, in turn, depends on a Magento catalog model and a mail service. Via the configuration, we can provide "acme.product.catalog" - which is constructed by calling Mage::getModel('inviqa_acme/catalog') - as a dependency to "acme.checkout". Thus our "acme.checkout" service/class is now decoupled from Magento and its logic and business rules can be tested independently.
 
@@ -99,13 +99,12 @@ class Inviqa_Acme_IndexController
 
 ### Usage directly via helper
 
-
 ```php
 $container = Mage::helper('inviqa_symfonyContainer/containerProvider')->getContainer();
 ```
 
 ### Test Environment
-The configuration builder reads the Magento configuration node "global/environment" and uses this to switch the container generator to test environment. The string expected in "global/environment" node is "test". In this mode, the container generator will read additional services_test.xml files, which will override services defined in services.xml if their id's match. In this way, you can use "mock" services for integration testing purposes. (see additional documentation in https://github.com/inviqa/symfony-container-generator)
+The configuration builder reads the Magento configuration node "global/environment" and uses this to switch the container generator to "test" environment. The string expected in the "global/environment" node is "test". In this mode, the container generator will read additional services_test.xml files, which will override services defined in services.xml if their id's match. In this way, you can use "mock" services for integration testing purposes. (see additional documentation in https://github.com/inviqa/symfony-container-generator)
 
 ### Providing Magento Store Configuration Values to Service Constructors
 If your service requires a value from the store configuration, something which would normally require calling Mage::getStoreConfig('web/secure/base_url') for example, you can use the special tag mage.config in place of an <argument> node in your service definition. The "key" attribute is a regular Magento store configuration key. This will simply add the value of requested store configuration to the list of service constructor arguments:
@@ -136,7 +135,7 @@ If the specified key does not exist, or is empty, the argument will be null or e
 
 ### Explicitly Providing Dependencies via __dependencies (since version 0.5.0)
 
-Certain Magento classes, such as controllers, observers and blocks are instantiated by the system and therefore cannot be instantiated by the DI Container, nevertheless an additional service tag can make it easier to explicitly provide dependencies to these classes. Adding the mage.injectable tag to a service will allow you to provide this services dependencies *after* the service has been instantiated. The services arguments will be provided to the __dependencies method provided you call ServiceInjector::setupDependencies($class) after service instantiation, and your service has a __dependencies method that contains typehints that match the arguments type an order.
+Certain Magento classes, such as controllers, observers and blocks are instantiated by the system and therefore cannot be instantiated by the DI Container, nevertheless an additional service tag can make it easier to explicitly provide dependencies to these classes. Adding the mage.injectable tag to a service will allow you to provide these service dependencies *after* the service has been instantiated. The services arguments will be provided to the __dependencies method, provided you call ServiceInjector::setupDependencies($class) after service instantiation, and your service has a __dependencies method that contains typehints that match the arguments types in order.
 
 For convenience, setupDependencies is called on controllers by hooking into the pre-dispatch event, for other classes such as observers and blocks you will have to call it yourself by overriding the class constructor.
 
@@ -184,7 +183,7 @@ And the class itself will implement __dependencies() thus:
     }
 ```
 
-Unfortunately your controller will still be coupled to Mage due to extending Mage_Core_Controller_Front_Action, and thus - untestable as a unit, but it will be clear what its dependencies are and they will be type-hinted.
+Unfortunately your controller will still be coupled to Mage due to extending Mage_Core_Controller_Front_Action, and thus - untestable as a unit, but it will at least be clear what its' dependencies are and they will be type-hinted.
 
 To provide dependencies to other classes after they are instantiated, in addition to using the mage.injectable tag and implementing __dependencies, you will have to override your class' constructor, for example:
 ```php

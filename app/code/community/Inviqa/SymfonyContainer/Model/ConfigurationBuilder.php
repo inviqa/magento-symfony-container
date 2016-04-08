@@ -5,11 +5,9 @@ use ContainerTools\Configuration;
 class Inviqa_SymfonyContainer_Model_ConfigurationBuilder
 {
     const MODEL_ALIAS = 'inviqa_symfonyContainer';
-
     const CACHED_CONTAINER = 'container.cache.php';
     const ENVIRONMENT_NODE = 'global/environment';
     const TEST_ENVIRONMENT = 'test';
-
 
     /**
      * @var Mage_Core_Model_App

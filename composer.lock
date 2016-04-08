@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1c38b8f5bfaaa896a0952b925bc9b3bf",
-    "content-hash": "1b9f17b2758c9cd69dbb7c2766a4740f",
+    "hash": "a6809674af8ebd5c83e787edd68108c8",
+    "content-hash": "6ad30ed1fb77caea489c693bbc964d6c",
     "packages": [
         {
             "name": "eloquent/composer-config-reader",
@@ -260,16 +260,16 @@
         },
         {
             "name": "inviqa/symfony-container-generator",
-            "version": "0.2.2",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/inviqa/symfony-container-generator.git",
-                "reference": "8c616420210bf779507f6bd33e3a06496b310e92"
+                "reference": "cdbe92b88be73543d72a4740b526bc517367c223"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inviqa/symfony-container-generator/zipball/8c616420210bf779507f6bd33e3a06496b310e92",
-                "reference": "8c616420210bf779507f6bd33e3a06496b310e92",
+                "url": "https://api.github.com/repos/inviqa/symfony-container-generator/zipball/cdbe92b88be73543d72a4740b526bc517367c223",
+                "reference": "cdbe92b88be73543d72a4740b526bc517367c223",
                 "shasum": ""
             },
             "require": {
@@ -292,7 +292,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Generic Symfony DI Container Builder",
-            "time": "2015-08-23 15:06:16"
+            "time": "2016-04-08 09:37:00"
         },
         {
             "name": "justinrainbow/json-schema",
