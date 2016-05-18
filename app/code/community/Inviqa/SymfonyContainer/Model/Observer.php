@@ -12,9 +12,15 @@ class Inviqa_SymfonyContainer_Model_Observer
     public function onCacheRefresh(Varien_Event_Observer $event)
     {
         if (ConfigurationBuilder::MODEL_ALIAS === $event->getType()) {
-            $filePath = Mage::getBaseDir('cache') . '/' . ConfigurationBuilder::CACHED_CONTAINER;
-            if (file_exists($filePath)) {
-                unlink($filePath);
+            $containerFilePath = Mage::getBaseDir('cache') . '/' . ConfigurationBuilder::CACHED_CONTAINER;
+            $metaFilePath = Mage::getBaseDir('cache') . '/' . ConfigurationBuilder::CACHED_CONTAINER . '.meta';
+
+            if (file_exists($containerFilePath)) {
+                unlink($containerFilePath);
+            }
+
+            if (file_exists($metaFilePath)) {
+                unlink($metaFilePath);
             }
         }
     }
