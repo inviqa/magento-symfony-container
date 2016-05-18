@@ -2,11 +2,18 @@
 
 use ContainerTools\Configuration;
 use ContainerTools\ContainerGenerator;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Container;
+use Bridge\MageApp;
 
 class Inviqa_SymfonyContainer_Helper_ContainerProvider
 {
     const HELPER_NAME = 'inviqa_symfonyContainer/containerProvider';
+
+    /**
+     * @var Mage_Core_Model_App
+     */
+    private $_mageApp;
 
     /**
      * @var Container
@@ -22,7 +29,6 @@ class Inviqa_SymfonyContainer_Helper_ContainerProvider
      * @var CompilerPassInterface
      */
     private $_storeConfigCompilerPass;
-
     /**
      * @var CompilerPassInterface
      */
@@ -30,6 +36,8 @@ class Inviqa_SymfonyContainer_Helper_ContainerProvider
 
     public function __construct(array $services = array())
     {
+        $this->_mageApp = isset($services['app']) ? $services['app'] : Mage::app();
+
         $this->_generatorConfig = isset($services['generatorConfig']) ?
             $services['generatorConfig'] :
             Mage::getModel('inviqa_symfonyContainer/configurationBuilder')->build();
@@ -58,6 +66,11 @@ class Inviqa_SymfonyContainer_Helper_ContainerProvider
     {
         $this->_generatorConfig->addCompilerPass($this->_storeConfigCompilerPass);
         $this->_generatorConfig->addCompilerPass($this->_injectableCompilerPass);
+
+        $this->_mageApp->dispatchEvent(
+            'symfony_container_before_container_generator',
+            ['generator_config' => $this->_generatorConfig]
+        );
 
         $generator = new ContainerGenerator($this->_generatorConfig);
 
