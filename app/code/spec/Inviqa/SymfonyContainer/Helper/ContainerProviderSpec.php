@@ -44,7 +44,7 @@ class Inviqa_SymfonyContainer_Helper_ContainerProviderSpec extends ObjectBehavio
         $this->getContainer()->shouldBeAnInstanceOf(Container::class);
     }
 
-    function it_memorizes_the_container(
+    function it_memoizes_the_container(
         MageApp $app,
         Configuration $generatorConfig,
         StoreConfigCompilerPass $configCompilerPass,
