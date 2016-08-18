@@ -7,14 +7,21 @@ class Inviqa_SymfonyContainer_Model_Observer
 {
     use Inviqa_SymfonyContainer_Helper_ServiceProvider;
 
+    const CACHE_META_SUFFIX = '.meta';
     const SERVICE_INJECTOR = 'inviqa_symfonyContainer/serviceInjector';
 
     public function onCacheRefresh(Varien_Event_Observer $event)
     {
         if (ConfigurationBuilder::MODEL_ALIAS === $event->getType()) {
-            $filePath = Mage::getBaseDir('cache') . '/' . ConfigurationBuilder::CACHED_CONTAINER;
-            if (file_exists($filePath)) {
-                unlink($filePath);
+            $containerFilePath = $this->containerCachePath();
+            $metaFilePath = $this->containerCacheMetaPath();
+
+            if (file_exists($containerFilePath)) {
+                unlink($containerFilePath);
+            }
+
+            if (file_exists($metaFilePath)) {
+                unlink($metaFilePath);
             }
         }
     }
@@ -25,5 +32,15 @@ class Inviqa_SymfonyContainer_Model_Observer
         Mage::getSingleton(self::SERVICE_INJECTOR, [
             'container' => Mage::helper(ContainerProvider::HELPER_NAME)->getContainer()
         ])->setupDependencies($controller);
+    }
+
+    private function containerCachePath()
+    {
+        return Mage::getBaseDir('cache') . DIRECTORY_SEPARATOR . ConfigurationBuilder::CACHED_CONTAINER;
+    }
+
+    private function containerCacheMetaPath()
+    {
+        return $this->containerCachePath() . self::CACHE_META_SUFFIX;
     }
 }

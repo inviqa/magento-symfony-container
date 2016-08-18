@@ -193,3 +193,31 @@ To provide dependencies to other classes after they are instantiated, in additio
         parent::__construct();
     }
 ```
+
+### Registering your own compiler pass
+
+Create a [custom compiler pass](https://github.com/inviqa/magento-symfony-container/blob/master/app/code/community/Inviqa/SymfonyContainer/Model/InjectableCompilerPass.php) class in your project.
+
+Create a Magento observer and configure it to listen to the `symfony_container_before_container_generator` Magento event.
+Update this observer to inject the custom compiler pass into the generator config, as shown below:
+
+```php
+class Inviqa_DependencyInjection_Model_Observer
+{
+    /** @var CustomCompilerPass */
+    private $customCompilerPass;
+
+    public function __construct()
+    {
+        $this->customCompilerPass = new CustomCompilerPass();
+    }
+
+    public function onBeforeContainerGenerator(Varien_Event_Observer $observer)
+    {
+        /** @var Configuration $generatorConfig */
+        $generatorConfig = $observer->getData('generator_config');
+
+        $generatorConfig->addCompilerPass($this->customCompilerPass);
+    }
+}
+```
