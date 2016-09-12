@@ -12,10 +12,14 @@ class Inviqa_SymfonyContainer_Model_Observer
 
     public function onCacheRefresh(Varien_Event_Observer $event)
     {
-        $eventType = $event->getType();
-        if ($eventType === ConfigurationBuilder::MODEL_ALIAS || is_null($eventType)) {
+        if ($event->getType() === ConfigurationBuilder::MODEL_ALIAS) {
             $this->clearCache();
         }
+    }
+
+    public function onCacheFlush()
+    {
+        $this->clearCache();
     }
 
     public function onPreDispatch(Varien_Event_Observer $event)
