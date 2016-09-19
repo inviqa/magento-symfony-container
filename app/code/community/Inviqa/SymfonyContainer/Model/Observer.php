@@ -12,19 +12,16 @@ class Inviqa_SymfonyContainer_Model_Observer
 
     public function onCacheRefresh(Varien_Event_Observer $event)
     {
-        if (ConfigurationBuilder::MODEL_ALIAS === $event->getType()) {
-            $containerFilePath = $this->containerCachePath();
-            $metaFilePath = $this->containerCacheMetaPath();
-
-            if (file_exists($containerFilePath)) {
-                unlink($containerFilePath);
-            }
-
-            if (file_exists($metaFilePath)) {
-                unlink($metaFilePath);
-            }
+        if ($event->getType() === ConfigurationBuilder::MODEL_ALIAS) {
+            $this->clearCache();
         }
     }
+
+    public function onCacheFlush()
+    {
+        $this->clearCache();
+    }
+
     public function onPreDispatch(Varien_Event_Observer $event)
     {
         $controller = $event->getControllerAction();
@@ -32,6 +29,20 @@ class Inviqa_SymfonyContainer_Model_Observer
         Mage::getSingleton(self::SERVICE_INJECTOR, [
             'container' => Mage::helper(ContainerProvider::HELPER_NAME)->getContainer()
         ])->setupDependencies($controller);
+    }
+
+    private function clearCache()
+    {
+        $containerFilePath = $this->containerCachePath();
+        $metaFilePath = $this->containerCacheMetaPath();
+
+        if (file_exists($containerFilePath)) {
+            unlink($containerFilePath);
+        }
+
+        if (file_exists($metaFilePath)) {
+            unlink($metaFilePath);
+        }
     }
 
     private function containerCachePath()
