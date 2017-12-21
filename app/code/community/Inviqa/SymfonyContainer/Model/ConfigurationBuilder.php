@@ -58,9 +58,10 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilder
      */
     private function _collectConfigFolders()
     {
-        $folders = array($this->_config->getOptions()->getEtcDir());
-
-        return $this->_addModuleFolders($folders);
+        $folders = $this->_addModuleFolders([]);
+        $folders[] = $this->_config->getOptions()->getEtcDir();
+        
+        return $folders;
     }
 
     /**
