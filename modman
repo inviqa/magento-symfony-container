@@ -1,2 +1,7 @@
-app/code/community/Inviqa/SymfonyContainer/*    app/code/community/Inviqa/SymfonyContainer
-app/etc/modules/Inviqa_SymfonyContainer.xml             app/etc/modules/
+# Inviqa - Magento Symfony Container
+
+# Code
+app/code/community/Inviqa/SymfonyContainer    app/code/community/Inviqa/SymfonyContainer
+
+# Init File
+app/etc/modules/Inviqa_SymfonyContainer.xml    app/etc/modules/Inviqa_SymfonyContainer.xml
