@@ -64,10 +64,10 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilderSpec extends ObjectBehav
     {
         $configNode->children()->willReturn([
             'module1' => (object)[
-                'active' => true
+                'active' => 'true'
             ],
             'module2' => (object)[
-                'active' => true
+                'active' => 'true'
             ]
         ]);
 
@@ -83,10 +83,10 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilderSpec extends ObjectBehav
     {
         $configNode->children()->willReturn([
             'module1' => (object)[
-                'active' => true
+                'active' => 'true'
             ],
             'module2' => (object)[
-                'active' => false
+                'active' => 'false'
             ]
         ]);
 
