@@ -71,7 +71,7 @@ class Inviqa_SymfonyContainer_Model_ConfigurationBuilder
     private function _addModuleFolders($folders)
     {
         foreach ($this->_config->getNode('modules')->children() as $name => $module) {
-            if ($module->active) {
+            if ((string) $module->active == 'true') {
                 $folders[] = $this->_config->getModuleDir('etc', $name);
             }
         }
