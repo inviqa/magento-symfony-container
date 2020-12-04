@@ -5,7 +5,7 @@
     "description": "Provides Magento with an instance of a Symfony DI Container",
     "require": {
         "inviqa/symfony-container-generator": "^1.0",
-        "magento-hackathon/magento-composer-installer": "^3.0"
+        "magento-hackathon/magento-composer-installer": ">= 3.0.0"
     },
     "require-dev": {
         "phpspec/phpspec": "^2.2"
